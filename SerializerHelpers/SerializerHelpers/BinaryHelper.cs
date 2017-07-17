@@ -60,8 +60,8 @@ namespace SerializerHelpers
         /// <returns>Check if the save file exist or not.</returns>
         public bool TryLoad<T>(string dataPath, string fileName, out T param) where T : class
         {
-            Debug.Assert(dataPath != null, "TrySave, null " + nameof(dataPath));
-            Debug.Assert(fileName != null, "TrySave, null " + nameof(fileName));
+            Debug.Assert(dataPath != null, "TryLoad, null " + nameof(dataPath));
+            Debug.Assert(fileName != null, "TryLoad, null " + nameof(fileName));
 
             string savePath = Path.Combine(dataPath, fileName);
             if (File.Exists(savePath))
@@ -96,8 +96,8 @@ namespace SerializerHelpers
 
         public bool DeleteSaveFile(string dataPath, string fileName)
         {
-            Debug.Assert(dataPath != null, "TrySave, null " + nameof(dataPath));
-            Debug.Assert(fileName != null, "TrySave, null " + nameof(fileName));
+            Debug.Assert(dataPath != null, "DeleteSaveFile, null " + nameof(dataPath));
+            Debug.Assert(fileName != null, "DeleteSaveFile, null " + nameof(fileName));
 
             string savePath = Path.Combine(dataPath, fileName);
             if (File.Exists(savePath))
