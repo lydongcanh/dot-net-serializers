@@ -1,12 +1,12 @@
-﻿using System.Diagnostics;
+using System;
+using System.Diagnostics;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 
-namespace SerializerHelpers
+namespace LINQPractice.Serializer
 {
-    public class BinaryHelper: ISerializer
+    public class BinarySerializer : ISerializer
     {
         /// <summary>
         /// Save all data into the data path.
@@ -30,13 +30,11 @@ namespace SerializerHelpers
                 try
                 {
                     binaryFormatter.Serialize(fileStream, param);
-                    Debug.WriteLine(string.Format("Saved {0} successfully into {1}.", nameof(param), savePath));
                     return true;
                 }
-                catch (SerializationException sE)
+                catch (Exception)
                 {
-                    Debug.WriteLine(string.Format("Error when try to save {0} into {1}: {2}.", nameof(param), dataPath, sE));
-                    return false;
+                    throw;
                 }
                 finally
                 {
@@ -45,8 +43,7 @@ namespace SerializerHelpers
             }
             else
             {
-                Debug.WriteLine(nameof(param) + " should be marked as serilizable first.");
-                return false;
+                throw new InvalidDataException("Unserializable type.");
             }
         }
 
@@ -60,8 +57,8 @@ namespace SerializerHelpers
         /// <returns>Check if the save file exist or not.</returns>
         public bool TryLoad<T>(string dataPath, string fileName, out T param) where T : class
         {
-            Debug.Assert(dataPath != null, "TryLoad, null " + nameof(dataPath));
-            Debug.Assert(fileName != null, "TryLoad, null " + nameof(fileName));
+            Debug.Assert(dataPath != null, "TrySave, null " + nameof(dataPath));
+            Debug.Assert(fileName != null, "TrySave, null " + nameof(fileName));
 
             string savePath = Path.Combine(dataPath, fileName);
             if (File.Exists(savePath))
@@ -72,14 +69,12 @@ namespace SerializerHelpers
                 {
                     T data = (T)binaryFormatter.Deserialize(fileStream);
                     param = data;
-                    Debug.WriteLine(string.Format("Loaded {0} successfully from {1} into {2}.", nameof(param), savePath, param));
                     return true;
                 }
-                catch (SerializationException sE)
+                catch (Exception)
                 {
                     param = default(T);
-                    Debug.WriteLine(string.Format("Error when try to load {0} from {1}: {2}.", nameof(param), dataPath, sE.Message));
-                    return false;
+                    throw;
                 }
                 finally
                 {
@@ -89,27 +84,30 @@ namespace SerializerHelpers
             else
             {
                 param = default(T);
-                Debug.WriteLine(string.Format("Coundn't find {0} in {1}.", nameof(param), dataPath));
-                return false;
+                throw new DirectoryNotFoundException();
             }
         }
 
-        public bool DeleteSaveFile(string dataPath, string fileName)
+        public void DeleteSaveFile(string dataPath, string fileName)
         {
-            Debug.Assert(dataPath != null, "DeleteSaveFile, null " + nameof(dataPath));
-            Debug.Assert(fileName != null, "DeleteSaveFile, null " + nameof(fileName));
+            Debug.Assert(dataPath != null, "TrySave, null " + nameof(dataPath));
+            Debug.Assert(fileName != null, "TrySave, null " + nameof(fileName));
 
             string savePath = Path.Combine(dataPath, fileName);
             if (File.Exists(savePath))
             {
-                File.Delete(savePath);
-                Debug.WriteLine(string.Format("Deleted {0} successfully in {1}.", fileName, savePath));
-                return true;
+                try
+                {
+                    File.Delete(savePath);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
             else
             {
-                Debug.WriteLine(string.Format("Error when try to delete {0} in {1}.", fileName, dataPath));
-                return false;
+                throw new DirectoryNotFoundException();
             }
         }
     }
