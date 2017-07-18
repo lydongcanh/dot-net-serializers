@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 
-namespace LINQPractice.Serializer
+namespace SerializerHelpers
 {
     public class BinarySerializer : ISerializer
     {
@@ -84,7 +84,7 @@ namespace LINQPractice.Serializer
             else
             {
                 param = default(T);
-                throw new DirectoryNotFoundException();
+                throw new FileNotFoundException("Couldnt find " + fileName + " in " + savePath);
             }
         }
 
@@ -107,7 +107,7 @@ namespace LINQPractice.Serializer
             }
             else
             {
-                throw new DirectoryNotFoundException();
+                throw new FileNotFoundException("Couldnt find " + fileName + " in " + savePath);
             }
         }
     }
