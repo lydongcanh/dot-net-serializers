@@ -3,7 +3,7 @@ using System.IO;
 using System.Diagnostics;
 using Newtonsoft.Json;
 
-namespace LINQPractice.Serializer
+namespace SerializerHelpers
 {
     class JSONSerializer : ISerializer
     {
@@ -88,7 +88,7 @@ namespace LINQPractice.Serializer
             else
             {
                 param = default(T);
-                throw new DirectoryNotFoundException();
+                throw new FileNotFoundException("Couldnt find " + fileName + " in " + savePath);
             }
         }
 
@@ -111,7 +111,7 @@ namespace LINQPractice.Serializer
             }
             else
             {
-                throw new DirectoryNotFoundException();
+                throw new FileNotFoundException("Couldnt find " + fileName + " in " + savePath);
             }
         }
     }
