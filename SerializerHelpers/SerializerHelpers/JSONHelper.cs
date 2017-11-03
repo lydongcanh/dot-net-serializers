@@ -10,12 +10,12 @@ namespace SerializerHelpers
         /// <summary>
         /// Save all data into the data path.
         /// </summary>
-        /// <typeparam name="T">Type of the data. (Have to be ref type for now.)</typeparam>
+        /// <typeparam name="T">Type of the data.</typeparam>
         /// <param name="dataPath">Path to the data folder.</param>
         /// <param name="fileName">Save file name.</param>
         /// <param name="param">Object that will be saved.</param>
         /// <returns>Check if saved successfully.</returns>
-        public bool TrySave<T>(string dataPath, string fileName, T param) where T : class
+        public bool TrySave<T>(string dataPath, string fileName, T param)
         {
             Debug.Assert(dataPath != null, "TrySave, null " + nameof(dataPath));
             Debug.Assert(fileName != null, "TrySave, null " + nameof(fileName));
@@ -51,12 +51,12 @@ namespace SerializerHelpers
         /// <summary>
         /// Load saved data in the data path.
         /// </summary>
-        /// <typeparam name="T">Type of the data. (Have to be ref type for now.)</typeparam>
+        /// <typeparam name="T">Type of the data.</typeparam>
         /// <param name="dataPath">Path to the data folder.</param>
         /// <param name="fileName">Save file name.</param>
         /// <param name="param">All the data will be loaded into this.</param>
         /// <returns>Check if the save file exist or not.</returns>
-        public bool TryLoad<T>(string dataPath, string fileName, out T param) where T : class
+        public bool TryLoad<T>(string dataPath, string fileName, out T param)
         {
             Debug.Assert(dataPath != null, "TrySave, null " + nameof(dataPath));
             Debug.Assert(fileName != null, "TrySave, null " + nameof(fileName));
